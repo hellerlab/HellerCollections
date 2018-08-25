@@ -37,5 +37,5 @@ nms <- unlist(nms)
 rowData(sce)$GeneId <- ids
 rownames(sce) <- nms
 # OR
-rownames(sce) <- ids
 rowData(sce)$Symbol <- nms
+rownames(sce) <- ids
