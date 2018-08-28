@@ -5,11 +5,12 @@ set.seed(1101)
 ###############################################################################
 # Function to extract Ids and Symbol names from id_symbol tags
 # @param tags character vector containing the id_symbol tags
-# @return Names and Ids
+# @param sep character string that separates the terms (default: "_")
+# @return names and ids
 # @author Daniel C. Ellwanger
 ###############################################################################
-extractIdsAndNames <- function(tags) {
-  rnsplit <- strsplit(rownames(exSCE), "_")
+extractIdsAndNames <- function(tags, sep="_") {
+  rnsplit <- strsplit(rownames(exSCE), split=sep)
   ids <- lapply(rnsplit, 
                 function(x) x[1])
   ids <- unlist(ids)
@@ -17,7 +18,7 @@ extractIdsAndNames <- function(tags) {
   nms <- lapply(rnsplit, 
                 function(x){
                   ifelse(length(x) > 1, 
-                         paste(x[2:length(x)], collapse="_"), 
+                         paste(x[2:length(x)], collapse=sep), 
                          x[1])})
   nms <- unlist(nms)
   data.frame(Ids=ids, Names=nms, stringsAsFactors=FALSE)
