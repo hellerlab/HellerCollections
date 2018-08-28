@@ -6,6 +6,7 @@ set.seed(1101)
 # Function to extract Ids and Symbol names from id_symbol tags
 # @param tags character vector containing the id_symbol tags
 # @return Names and Ids
+# @author Daniel C. Ellwanger
 ###############################################################################
 extractIdsAndNames <- function(tags) {
   rnsplit <- strsplit(rownames(exSCE), "_")
