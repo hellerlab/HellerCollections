@@ -30,7 +30,7 @@ plotMFrow <- function(ggplots, n_rows, n_columns){
 ###############################################################################
 # Plot manifold for multiple genes
 ###############################################################################
-# Generate single plots for first 4 genes
+# Generate single plots for first 6 features
 viz <- lapply(seq_len(6), 
               function(i){
                 plotManifold(exSCE, 
