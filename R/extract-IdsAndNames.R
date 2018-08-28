@@ -3,6 +3,26 @@ data(exSCE)
 set.seed(1101)
 
 ###############################################################################
+# Function to extract Ids and Symbol names from id_symbol tags
+# @param tags character vector containing the id_symbol tags
+# @return Names and Ids
+###############################################################################
+extractIdsAndNames <- function(tags) {
+  rnsplit <- strsplit(rownames(exSCE), "_")
+  ids <- lapply(rnsplit, 
+                function(x) x[1])
+  ids <- unlist(ids)
+  
+  nms <- lapply(rnsplit, 
+                function(x){
+                  ifelse(length(x) > 1, 
+                         paste(x[2:length(x)], collapse="_"), 
+                         x[1])})
+  nms <- unlist(nms)
+  data.frame(Ids=ids, Names=nms, stringsAsFactors=FALSE)
+}
+
+###############################################################################
 # Example data
 ###############################################################################
 rnames <- vapply(seq_len(25), 
@@ -15,25 +35,12 @@ rownames(exSCE) <- rnames
 ###############################################################################
 # Extract Ids and Symbol names
 ###############################################################################
-# Split row names
-rnsplit <- strsplit(rownames(exSCE), "_")
-
-# Extract Ids
-ids <- lapply(rnsplit, 
-              function(x) x[1])
-ids <- unlist(ids)
-
-# Extract symbol names
-nms <- lapply(rnsplit, 
-              function(x){
-                ifelse(length(x) > 1, 
-                       paste(x[2:length(x)], collapse="_"), 
-                       x[1])})
-nms <- unlist(nms)
+idsNms <- extractIdsAndNames(rownames(exSCE))
+head(idsNms)
 
 # Set Ids and symbol names to SingleCellExperiment object
-rowData(exSCE)$GeneId <- ids
-rownames(exSCE) <- nms
+rowData(exSCE)$GeneId <- idsNms$Ids
+rownames(exSCE) <- idsNms$Names
 # OR
-rowData(exSCE)$Symbol <- nms
-rownames(exSCE) <- ids
+rowData(exSCE)$Symbol <- idsNms$Names
+rownames(exSCE) <- idsNms$Ids
